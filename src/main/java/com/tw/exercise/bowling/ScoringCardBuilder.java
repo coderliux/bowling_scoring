@@ -29,7 +29,7 @@ public class ScoringCardBuilder {
 			tempFrame = new Frame(firstRoll, secondRoll);
 			if (hasExtendRoll(pinsForEachRoll.length, scoredRoll, i)) {
 				String extendRoll = pinsForEachRoll[++i];
-				tempFrame.setExtendRoll(extendRoll);
+				tempFrame.setExtraRoll(extendRoll);
 			}
 			scoringCard.addFrame(tempFrame);
 

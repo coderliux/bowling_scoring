@@ -76,7 +76,7 @@ public class FrameTest {
 	@Test
 	public void shouldReturnScoring30WhenIsLastIsAllStrike() throws Exception {
 		Frame frame = new Frame("10", "10");
-		frame.setExtendRoll("10");
+		frame.setExtraRoll("10");
 
 		assertThat(frame.getScoring(), is(30));
 	}

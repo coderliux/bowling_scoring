@@ -8,7 +8,7 @@ import static com.tw.exercise.util.NumberUtil.parseScoring;
 public class Frame {
 	private String firstRoll;
 	private String secondRoll;
-	private String extendRoll;
+	private String extraRoll;
 	private Frame nextRound;
 
 
@@ -25,12 +25,12 @@ public class Frame {
 		return secondRoll;
 	}
 
-	public String getExtendRoll() {
-		return extendRoll;
+	public String getExtraRoll() {
+		return extraRoll;
 	}
 
-	public void setExtendRoll(String extendRoll) {
-		this.extendRoll = extendRoll;
+	public void setExtraRoll(String extraRoll) {
+		this.extraRoll = extraRoll;
 	}
 
 	public boolean isBasicScoring() {
@@ -60,14 +60,14 @@ public class Frame {
 	}
 
 	public boolean isLast() {
-		return extendRoll != null;
+		return extraRoll != null;
 	}
 
 
 	public int getScoring() {
 		int currentScoring = getCurrentFramePins();
 		if (isLast()) {
-			return currentScoring + parseScoring(getExtendRoll());
+			return currentScoring + parseScoring(getExtraRoll());
 		}
 		if (isStrikeBonusScoring()) {
 			currentScoring = currentScoring + getNextTwoRollScoring();
