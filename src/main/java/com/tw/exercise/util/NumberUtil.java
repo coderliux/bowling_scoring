@@ -6,18 +6,10 @@ package com.tw.exercise.util;
 public class NumberUtil {
 
 	public static int parseScoring(String scoring) {
-		boolean isNumber = scoring.matches("\\d+");
-		if (isNumber) {
-			return Integer.parseInt(scoring);
+		if (scoring == null || !scoring.matches("\\d+")) {
+			return 0;
 		}
 
-		switch (scoring) {
-			case "X":
-				return 10;
-			case "-":
-				return 0;
-
-		}
-		return 0;
+		return Integer.parseInt(scoring);
 	}
 }

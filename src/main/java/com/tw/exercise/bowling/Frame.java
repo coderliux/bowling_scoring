@@ -34,18 +34,16 @@ public class Frame {
 	}
 
 	public boolean isBasicScoring() {
-		return (parseScoring(firstRoll) + parseScoring(secondRoll)) < ScoringCard.MAX_PIN_SIZE;
+		return getCurrentFramePins() < ScoringCard.MAX_PIN_SIZE;
 
 	}
 
 	public boolean isStrikeBonusScoring() {
-		return "X".equals(firstRoll) || parseScoring(firstRoll) == ScoringCard.MAX_PIN_SIZE;
+		return parseScoring(firstRoll) == ScoringCard.MAX_PIN_SIZE;
 	}
 
 	public boolean isSpareBonusScoring() {
-		return "/".equals(secondRoll) ||
-					   (!isStrikeBonusScoring() && (parseScoring(firstRoll)
-															+ parseScoring(secondRoll)) == ScoringCard.MAX_PIN_SIZE);
+		return !isStrikeBonusScoring() && getCurrentFramePins() == ScoringCard.MAX_PIN_SIZE;
 	}
 
 
@@ -57,27 +55,34 @@ public class Frame {
 		return nextRound;
 	}
 
+	public boolean hasNextRound() {
+		return nextRound != null;
+	}
+
 	public boolean isLast() {
 		return extendRoll != null;
 	}
 
 
 	public int getScoring() {
-		int currentScoring = 0;
+		int currentScoring = getCurrentFramePins();
 		if (isLast()) {
-			return parseScoring(getFirstRoll()) + parseScoring(getSecondRoll()) + parseScoring(getExtendRoll());
+			return currentScoring + parseScoring(getExtendRoll());
 		}
 		if (isStrikeBonusScoring()) {
-			currentScoring = parseScoring(getFirstRoll()) + getNextTwoRollScoring();
+			currentScoring = currentScoring + getNextTwoRollScoring();
 		} else if (isSpareBonusScoring()) {
-			currentScoring = parseScoring(getFirstRoll()) + parseScoring(getSecondRoll()) + getNextOneRollScoring();
-		} else {
-			currentScoring = parseScoring(getFirstRoll()) + parseScoring(getSecondRoll());
+			currentScoring = currentScoring + getNextOneRollScoring();
 		}
+
 		return currentScoring;
 	}
 
-	private int getNextOneRollScoring() {
+	public int getCurrentFramePins() {
+		return parseScoring(getFirstRoll()) + parseScoring(getSecondRoll());
+	}
+
+	public int getNextOneRollScoring() {
 		Frame nextRound = getNextRound();
 		if (nextRound == null) {
 			return 0;
@@ -85,23 +90,17 @@ public class Frame {
 		return parseScoring(nextRound.getFirstRoll());
 	}
 
-	private int getNextTwoRollScoring() {
-		int currentScoring = 0;
+	public int getNextTwoRollScoring() {
+		int scoringNextTwo = 0;
 		Frame nextRound = getNextRound();
 		if (nextRound == null) {
-			return currentScoring;
+			return scoringNextTwo;
 		}
-		if (nextRound.isStrikeBonusScoring()) {
-			currentScoring += parseScoring(nextRound.getFirstRoll());
-			Frame nextNextRound = nextRound.getNextRound();
-			if (nextNextRound != null) {
-				currentScoring += parseScoring(nextNextRound.getFirstRoll());
-			} else if (nextRound.isLast()) {
-				currentScoring += parseScoring(nextRound.getSecondRoll());
-			}
-		} else {
-			currentScoring = parseScoring(nextRound.getFirstRoll()) + parseScoring(nextRound.getSecondRoll());
+		scoringNextTwo = nextRound.getCurrentFramePins();
+		if (nextRound.isStrikeBonusScoring() && nextRound.hasNextRound()) {
+			scoringNextTwo = scoringNextTwo + parseScoring(nextRound.nextRound.getFirstRoll());
 		}
-		return currentScoring;
+		return scoringNextTwo;
 	}
+
 }

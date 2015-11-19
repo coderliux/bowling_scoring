@@ -8,7 +8,7 @@ import static org.junit.Assert.assertThat;
 public class ScoringCardBuilderTest {
 
 	@Test
-	public void shouldReturn10GivenInput() throws Exception {
+	public void shouldReturn10WhenGivenTwoBasicFrameRoll() throws Exception {
 			String input="1 2 3 4";
 		ScoringCard scoringCard=new ScoringCardBuilder().buildScoringCard(input);
 		assertThat(scoringCard.getCurrentCount(),is(2));
@@ -16,7 +16,7 @@ public class ScoringCardBuilderTest {
 	}
 
 	@Test
-	public void shouldReturn29GivenInput() throws Exception {
+	public void shouldReturn29WhenGivenTwoSpareFrameRoll() throws Exception {
 		String input="9 1 9 1";
 		ScoringCard scoringCard=new ScoringCardBuilder().buildScoringCard(input);
 		assertThat(scoringCard.getCurrentCount(),is(2));
@@ -24,7 +24,7 @@ public class ScoringCardBuilderTest {
 	}
 
 	@Test
-	public void shouldReturn18GivenInput() throws Exception {
+	public void shouldReturn18WhenGivenOneStrikeFrameRoll() throws Exception {
 		String input="1 1 1 1 10 1 1";
 		ScoringCard scoringCard=new ScoringCardBuilder().buildScoringCard(input);
 		assertThat(scoringCard.getCurrentCount(),is(4));
@@ -32,7 +32,7 @@ public class ScoringCardBuilderTest {
 	}
 
 	@Test
-	public void shouldReturn300GivenInput() throws Exception {
+	public void shouldReturn300WhenGivenAllStrikeFrameRoll() throws Exception {
 		String input="10 10 10 10 10 10 10 10 10 10 10 10";
 		ScoringCard scoringCard=new ScoringCardBuilder().buildScoringCard(input);
 		assertThat(scoringCard.getCurrentCount(),is(10));
@@ -40,7 +40,7 @@ public class ScoringCardBuilderTest {
 	}
 
 	@Test
-	public void shouldReturn74GivenInput() throws Exception {
+	public void shouldReturn74WhenGivenTwoStrikeAndOneSpareFrameRoll() throws Exception {
 		String input="6 2 7 1 10 9 0 8 2 10";
 		ScoringCard scoringCard=new ScoringCardBuilder().buildScoringCard(input);
 		assertThat(scoringCard.calculateTotal(),is(74));
